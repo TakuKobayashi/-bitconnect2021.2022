@@ -1,16 +1,10 @@
-import serverlessExpress from '@vendia/serverless-express';
-import express from 'express';
-import bodyParser from 'body-parser';
+import awsLambdaFastify from '@fastify/aws-lambda'
+import fastify from 'fastify'
 
-const app = express();
+const app = fastify();
 
-app.use(bodyParser.text({ type: '*/*' }));
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get('/test', (req, res, next) => {
-  res.status(200).json({
-    message: 'Hello from root!',
-  });
+app.get('/', (request, reply) => {
+  reply.send({ hello: 'world' })
 });
 
-export const handler = serverlessExpress({ app });
+export const handler = awsLambdaFastify(app);
