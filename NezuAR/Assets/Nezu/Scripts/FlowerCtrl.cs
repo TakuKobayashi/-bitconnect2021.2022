@@ -57,7 +57,9 @@ namespace NezuHack
                 m_targetTr.localPosition = Vector3.up * time * 1000f;
                 yield return null;
             }
+
             yield return new WaitForSeconds(1f);
+            StartCoroutine(growCo());
 
         }
         IEnumerator efcCo()
