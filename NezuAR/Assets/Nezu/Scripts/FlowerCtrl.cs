@@ -11,6 +11,7 @@ namespace NezuHack
         [SerializeField] AudioSource m_audioSource;
         [SerializeField] ParticleSystem m_ps;
         [SerializeField] AudioClip m_growClip;
+        [SerializeField] AudioClip m_finishClip;
         [SerializeField] AudioClip m_jumpClip;
         [SerializeField] float m_maxRate;
 
@@ -42,6 +43,8 @@ namespace NezuHack
                 yield return null;
             }
 
+            m_audioSource.PlayOneShot(m_finishClip);
+
             yield return new WaitForSeconds(1f);
 
             m_audioSource.clip = m_jumpClip;
@@ -54,7 +57,6 @@ namespace NezuHack
                 m_targetTr.localPosition = Vector3.up * time * 1000f;
                 yield return null;
             }
-
             yield return new WaitForSeconds(1f);
 
         }
