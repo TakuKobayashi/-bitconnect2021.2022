@@ -6,9 +6,10 @@ Shader "Unlit/UnlitCullFront"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Opaque" "Queue"="Geometry+10"}
         LOD 100
         CULL Front
+        ZWrite Off
 
         Pass
         {
