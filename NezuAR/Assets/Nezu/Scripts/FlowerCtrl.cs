@@ -7,6 +7,7 @@ namespace NezuHack
     public class FlowerCtrl : MonoBehaviour
     {
         [SerializeField] Transform m_targetTr;
+        [SerializeField] AnimationCurve m_scaleAC;
         // Start is called before the first frame update
         void Start()
         {
@@ -30,7 +31,7 @@ namespace NezuHack
             while (time < 1f)
             {
                 time = Mathf.Min(time + Time.deltaTime*0.5f, 1f);
-                m_targetTr.localScale = Vector3.one * time * 10f;
+                m_targetTr.localScale = Vector3.one * m_scaleAC.Evaluate(time) * 10f;
                 yield return null;
             }
 
