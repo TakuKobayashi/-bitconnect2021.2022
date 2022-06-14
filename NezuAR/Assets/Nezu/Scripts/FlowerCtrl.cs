@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace NezuHack
 {
@@ -28,7 +29,17 @@ namespace NezuHack
         // Update is called once per frame
         void Update()
         {
-
+            /*
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+                OnPowerButton(0.1f);
+            */
+        }
+        public void OnFire(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                OnPowerButton(0.1f);
+            }
         }
 
         IEnumerator growCo()
