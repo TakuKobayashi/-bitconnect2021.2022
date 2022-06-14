@@ -123,6 +123,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &281258340
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1321977052}
+    m_Modifications:
+    - target: {fileID: 5987284056725484348, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_Name
+      value: smokeTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
 --- !u!1 &329318728
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4288660843610852, guid: 5cca0f87b37f2a34d8fc3fcb91096bfd, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4288660843610852, guid: 5cca0f87b37f2a34d8fc3fcb91096bfd, type: 3}
       propertyPath: m_LocalScale.x
@@ -376,7 +433,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.56239873, y: 1}
+    m_SensorSize: {x: 0.5626976, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -947,6 +1004,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899113048}
   m_CullTransparentMesh: 1
+--- !u!198 &922404142 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5987284056725484345, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+  m_PrefabInstance: {fileID: 281258340}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &922404144 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5987284056725484351, guid: c272f0167d1179648b3bf7f5ae25f471, type: 3}
+  m_PrefabInstance: {fileID: 281258340}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,6 +1393,7 @@ Transform:
   m_Children:
   - {fileID: 790544684}
   - {fileID: 1406728976}
+  - {fileID: 922404144}
   - {fileID: 1487792102}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1369,6 +1437,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_audioSource: {fileID: 1321977054}
   m_ps: {fileID: 1406728978}
+  m_smokePs: {fileID: 922404142}
   m_growClip: {fileID: 8300000, guid: 198576cb332da2b408a8f50a4544cdde, type: 3}
   m_finishClip: {fileID: 8300000, guid: 4c6dafacc9eb0af4490118173d4428cc, type: 3}
   m_jumpClip: {fileID: 8300000, guid: 6ae37fd163717c54f8f5ef6436115548, type: 3}

@@ -10,6 +10,7 @@ namespace NezuHack
         [SerializeField] AnimationCurve m_scaleAC;
         [SerializeField] AudioSource m_audioSource;
         [SerializeField] ParticleSystem m_ps;
+        [SerializeField] ParticleSystem m_smokePs;
         [SerializeField] AudioClip m_growClip;
         [SerializeField] AudioClip m_finishClip;
         [SerializeField] AudioClip m_jumpClip;
@@ -50,6 +51,7 @@ namespace NezuHack
             m_audioSource.clip = m_jumpClip;
             m_audioSource.Play();
 
+            m_smokePs.Play();
             time = 0f;
             while (time < 1f)
             {
