@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 7de07872a1c131942b89789d16fb35d2, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 089635ded21664a46b4cf6ac83df69da, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.066423744, g: 0.07866503, b: 0.079043284, a: 1}
+  m_IndirectSpecularColor: {r: 0.1660564, g: 0.20275803, b: 0.2615425, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -438,7 +438,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5626976, y: 1}
+    m_SensorSize: {x: 0.5625, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -454,7 +454,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488135542}
-  m_LocalRotation: {x: -0.018820325, y: 0.9605715, z: -0.06717048, w: -0.26914006}
+  m_LocalRotation: {x: -0.0010586443, y: 0.96290976, z: -0.0037783436, w: -0.26979518}
   m_LocalPosition: {x: 5.322083, y: 2.4065866, z: 8.61722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -648,7 +648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &614498069
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1096,7 +1096,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.635737, y: -0.0023332385, z: 0.0025440601, w: 0.771898}
+  m_LocalRotation: {x: -0.68518114, y: -0.002495706, z: 0.0023849458, w: 0.7283646}
   m_LocalPosition: {x: 0.00001335144, y: -9.985836, z: -0.53207755}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_HorizontalDamping: 0.5
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.66
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
