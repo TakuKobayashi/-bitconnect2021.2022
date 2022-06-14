@@ -11,9 +11,12 @@ namespace NezuHack
         [SerializeField] AudioSource m_audioSource;
         [SerializeField] ParticleSystem m_ps;
         [SerializeField] ParticleSystem m_smokePs;
+        [SerializeField] ParticleSystem m_flashPs;
         [SerializeField] AudioClip m_growClip;
         [SerializeField] AudioClip m_finishClip;
         [SerializeField] AudioClip m_jumpClip;
+        [SerializeField] AudioClip m_flashClip;
+        [SerializeField] GameObject m_modelGo;
         [SerializeField] float m_maxRate;
 
         // Start is called before the first frame update
@@ -34,6 +37,7 @@ namespace NezuHack
             float time = 0f;
             m_targetTr.localScale = Vector3.zero;
             m_targetTr.localPosition = Vector3.zero;
+            m_modelGo.SetActive(true);
 
             yield return new WaitForSeconds(1f);
 
@@ -55,12 +59,15 @@ namespace NezuHack
             time = 0f;
             while (time < 1f)
             {
-                time = Mathf.Min(time + Time.deltaTime * 0.1f, 1f);
-                m_targetTr.localPosition = Vector3.up * time * 1000f;
+                time = Mathf.Min(time + Time.deltaTime * 0.2f, 1f);
+                m_targetTr.localPosition = Vector3.up * time * 500f;
                 yield return null;
             }
+            m_flashPs.Play();
+            m_audioSource.PlayOneShot(m_flashClip);
+            m_modelGo.SetActive(false);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(4f);
             StartCoroutine(growCo());
 
         }
