@@ -24,10 +24,13 @@ namespace NezuHack
         [SerializeField] GameObject m_seedGo;
         [SerializeField] float m_maxRate;
         [SerializeField] CinemachineImpulseSource m_cinemachineInputSrc;
+        [SerializeField]
+        Animator m_anm;
 
         // Start is called before the first frame update
         void Start()
         {
+            m_anm = m_seedGo.GetComponent<Animator>();
             StartCoroutine(growCo());
         }
 
@@ -71,16 +74,18 @@ namespace NezuHack
             m_cinemachineInputSrc?.GenerateImpulse(6f);
             yield return new WaitForSeconds(5f);
 
+            m_anm.Play("HimawariGrowth",0,0f);
             time = 0f;
             while (time < 1f)
             {
                 time = Mathf.Min(time + Time.deltaTime * 1f, 1f);
-                m_targetTr.localScale = Vector3.one * (1f-time);
+                //m_targetTr.localScale = Vector3.one * (1f-time);
                 yield return null;
             }
 
+            yield return new WaitForSeconds(2f);
             m_modelGo.SetActive(true);
-            m_seedGo.SetActive(false);
+            //m_seedGo.SetActive(false);
             m_targetTr.localScale = Vector3.zero;
 
             time = 0f;
