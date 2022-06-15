@@ -86,6 +86,7 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           projectPath: NezuAR/
+          allowDirtyBuild: true
 
       # Upload Build
       - name: Upload Build
