@@ -61,7 +61,7 @@ jobs:
           unityVersion: ${{ matrix.unity-editor-version }}
       - if: ${{ steps.cache-unity-license.outputs.cache-hit == false }}
         name: copy alf file for cache.
-        run: cp ${{ steps.getManualLicenseFile.outputs.filePath }} Unity/
+        run: cp ${{ steps.getManualLicenseFile.outputs.filePath }} NezuAR/
 
       # Activate from alf File
       - if: ${{ steps.cache-unity-license.outputs.cache-hit == false }}
