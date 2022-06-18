@@ -10,6 +10,9 @@ namespace NezuHack
     public class FlowerCtrl : MonoBehaviour
     {
         [SerializeField] Transform m_targetTr;
+        [SerializeField] Transform m_bottomTr;
+        [SerializeField] Transform m_topTr;
+        [SerializeField] Transform m_followTr;
         [SerializeField] AnimationCurve m_scaleAC;
         [SerializeField] AudioSource m_audioSource;
         [SerializeField] PlayableDirector m_timeline;
@@ -88,6 +91,7 @@ namespace NezuHack
             {
                 time = Mathf.Min(time + Time.deltaTime*0.5f, m_maxRate);
                 m_targetTr.localScale = Vector3.one * ((m_scaleAC.Evaluate(time) * 1f)+1f);
+                m_followTr.position = Vector3.Lerp(m_bottomTr.position, m_topTr.position, time);
                 yield return null;
             }
 
