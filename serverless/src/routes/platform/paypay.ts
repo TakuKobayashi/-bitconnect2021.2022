@@ -15,14 +15,12 @@ export async function paypayRouter(app, opts): Promise<void> {
     const payload = {
       merchantPaymentId: uuidv4(),
       amount: {
-        amount: 1,
+        amount: 100,
         currency: 'JPY',
       },
-      codeType: 'ORDER_QR',
-      orderDescription: "Mune's Favourite Cake",
+      codeType: "ORDER_QR",
+      orderDescription: "なにかの商品",
       isAuthorization: false,
-      redirectUrl: currentBaseUrl + '/platforms/paypay/payment_result',
-      redirectType: 'WEB_LINK',
     };
     const response = await PAYPAY.QRCodeCreate(payload);
     const body = response.BODY;
@@ -52,10 +50,7 @@ export async function paypayRouter(app, opts): Promise<void> {
     }
   }
   */
-    console.log(response);
-    return {
-      hello: 'salut',
-    };
+    res.redirect(body.data.url)
   });
   app.get('/payment_result', async (req, res) => {
     return {
