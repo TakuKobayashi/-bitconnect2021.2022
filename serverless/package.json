@@ -19,7 +19,8 @@
     "fastify": "^4.0.1",
     "line-pay-v3": "^1.0.6",
     "query-string": "^7.1.1",
-    "stripe": "^9.8.0"
+    "stripe": "^9.8.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.18.0",
