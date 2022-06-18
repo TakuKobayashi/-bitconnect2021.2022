@@ -28,7 +28,7 @@ namespace NezuHack
         [SerializeField] GameObject m_modelGo;
         [SerializeField] float m_maxRate;
         [SerializeField] CinemachineImpulseSource m_cinemachineInputSrc;
-        [SerializeField]
+        [SerializeField] bool m_isReadyToGrow;
 
         // Start is called before the first frame update
         void Start()
@@ -46,9 +46,13 @@ namespace NezuHack
         }
         public void OnFire(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            if (m_isReadyToGrow)
             {
-                OnPowerButton(0.1f);
+                if (context.phase == InputActionPhase.Performed)
+                {
+                    OnPay();
+                    OnPowerButton(0.25f);
+                }
             }
         }
 
@@ -59,6 +63,7 @@ namespace NezuHack
             m_targetTr.localScale = Vector3.one*1f;
             m_targetTr.localPosition = Vector3.up*500f;
             m_modelGo.SetActive(true);
+            m_isReadyToGrow = false;
 
             time = 0f;
             while (time < 1f)
@@ -71,6 +76,8 @@ namespace NezuHack
             m_gndHitPs.Play();
             m_audioSource.PlayOneShot(m_explodeClip);
             m_cinemachineInputSrc?.GenerateImpulse(6f);
+
+            m_isReadyToGrow = true;
             yield return new WaitForSeconds(5f);
             m_timeline.Play();
 
@@ -81,6 +88,7 @@ namespace NezuHack
                 //m_targetTr.localScale = Vector3.one * (1f-time);
                 yield return null;
             }
+            m_isReadyToGrow = false;
 
             yield return new WaitForSeconds(2f);
             m_modelGo.SetActive(true);
@@ -134,6 +142,15 @@ namespace NezuHack
         {
             m_maxRate = Mathf.Min(m_maxRate + _powerRate, 1f);
             StartCoroutine(efcCo());
+        }
+
+        /// <summary>
+        /// åàçœÉ{É^Éì
+        /// </summary>
+        /// <param name="_powerRate"></param>
+        public void OnPay()
+        {
+            Application.OpenURL("https://jstmx62b7g.execute-api.ap-northeast-1.amazonaws.com/production/platforms/paypay/");
         }
     }
 }
