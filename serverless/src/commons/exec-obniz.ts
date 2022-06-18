@@ -1,6 +1,6 @@
 const Obniz = require("obniz");
 
-export const obniz = new Obniz("1234-5678");
-obniz.onconnect = async function () {
+export const obnizDevice = new Obniz(process.env.OBNIZ_DEVICE_ID);
+obnizDevice.onconnect = async function () {
   console.log("connect!!")
 }
