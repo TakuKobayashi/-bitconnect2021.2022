@@ -11,22 +11,22 @@ The default false setting connects to the sandbox environment. The True setting 
 
 export async function paypayRouter(app, opts): Promise<void> {
   app.get('/', async (req, res) => {
+    const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
     const payload = {
       merchantPaymentId: uuidv4(),
       amount: {
-          amount: 1,
-          currency: "JPY"
+        amount: 1,
+        currency: 'JPY',
       },
-      codeType: "ORDER_QR",
+      codeType: 'ORDER_QR',
       orderDescription: "Mune's Favourite Cake",
       isAuthorization: false,
-      redirectUrl: "https://paypay.ne.jp/",
-      redirectType: "WEB_LINK",
-      userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1"
+      redirectUrl: currentBaseUrl + '/platforms/paypay/payment_result',
+      redirectType: 'WEB_LINK',
     };
     const response = await PAYPAY.QRCodeCreate(payload);
     const body = response.BODY;
-   /*
+    /*
    // responseの中身はこんな感じ
    {
      STATUS: 201,
@@ -55,6 +55,11 @@ export async function paypayRouter(app, opts): Promise<void> {
     console.log(response);
     return {
       hello: 'salut',
+    };
+  });
+  app.get('/payment_result', async (req, res) => {
+    return {
+      result: 'sample',
     };
   });
 }
