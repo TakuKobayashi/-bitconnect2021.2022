@@ -59,9 +59,6 @@ jobs:
         with:
           unityVersion: ${{ matrix.unity-editor-version }}
 
-      - name: copy alf file for cache.
-        run: mv ${{ steps.getManualLicenseFile.outputs.filePath }} NezuAR/
-
       # Activate from alf File
       - name: Install node package, `unity-activate`
         run: npm install -g unity-activate
