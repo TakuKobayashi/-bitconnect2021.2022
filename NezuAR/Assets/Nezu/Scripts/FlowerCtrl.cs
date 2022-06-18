@@ -50,8 +50,8 @@ namespace NezuHack
             {
                 if (context.phase == InputActionPhase.Performed)
                 {
-                    OnPay();
                     OnPowerButton(0.25f);
+                    OnPay();
                 }
             }
         }
@@ -88,7 +88,6 @@ namespace NezuHack
                 //m_targetTr.localScale = Vector3.one * (1f-time);
                 yield return null;
             }
-            m_isReadyToGrow = false;
 
             yield return new WaitForSeconds(2f);
             m_modelGo.SetActive(true);
@@ -104,6 +103,7 @@ namespace NezuHack
             }
 
             m_audioSource.PlayOneShot(m_finishClip);
+            m_isReadyToGrow = false;
 
             yield return new WaitForSeconds(1f);
 
