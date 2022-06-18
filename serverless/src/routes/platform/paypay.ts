@@ -57,4 +57,10 @@ export async function paypayRouter(app, opts): Promise<void> {
       result: 'sample',
     };
   });
+  app.post('/payment_webhook', async (req, res) => {
+    console.log(req.body)
+    return {
+      result: 'webhook',
+    };
+  });
 }

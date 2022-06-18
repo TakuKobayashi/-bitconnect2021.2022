@@ -1,5 +1,6 @@
 import awsLambdaFastify from '@fastify/aws-lambda';
 import fastify from 'fastify';
+import { obniz } from './commons/exec-obniz';
 import { paypayRouter } from './routes/platform/paypay';
 import { stripeRouter } from './routes/platform/stripe';
 
