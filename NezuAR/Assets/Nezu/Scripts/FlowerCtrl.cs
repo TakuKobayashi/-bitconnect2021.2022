@@ -64,6 +64,7 @@ namespace NezuHack
             m_targetTr.localPosition = Vector3.up*500f;
             m_modelGo.SetActive(true);
             m_isReadyToGrow = false;
+            m_followTr.position = Vector3.Lerp(m_bottomTr.position, m_topTr.position, 0f);
 
             time = 0f;
             while (time < 1f)
