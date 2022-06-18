@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { KintoneRestAPIClient } from "@kintone/rest-api-client";
 import PAYPAY from '@paypayopa/paypayopa-sdk-node';
 PAYPAY.Configure({
   clientId: process.env.PAYPAY_API_KEY,
