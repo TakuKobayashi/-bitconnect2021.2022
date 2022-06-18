@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using Cinemachine;
 
 namespace NezuHack
@@ -11,6 +12,7 @@ namespace NezuHack
         [SerializeField] Transform m_targetTr;
         [SerializeField] AnimationCurve m_scaleAC;
         [SerializeField] AudioSource m_audioSource;
+        [SerializeField] PlayableDirector m_timeline;
         [SerializeField] ParticleSystem m_ps;
         [SerializeField] ParticleSystem m_gndHitPs;
         [SerializeField] ParticleSystem m_smokePs;
@@ -21,16 +23,13 @@ namespace NezuHack
         [SerializeField] AudioClip m_jumpClip;
         [SerializeField] AudioClip m_flashClip;
         [SerializeField] GameObject m_modelGo;
-        [SerializeField] GameObject m_seedGo;
         [SerializeField] float m_maxRate;
         [SerializeField] CinemachineImpulseSource m_cinemachineInputSrc;
         [SerializeField]
-        Animator m_anm;
 
         // Start is called before the first frame update
         void Start()
         {
-            m_anm = m_seedGo.GetComponent<Animator>();
             StartCoroutine(growCo());
         }
 
@@ -56,10 +55,7 @@ namespace NezuHack
             float time = 0f;
             m_targetTr.localScale = Vector3.one*1f;
             m_targetTr.localPosition = Vector3.up*500f;
-            m_modelGo.SetActive(false);
-            m_seedGo.SetActive(true);
-
-            yield return new WaitForSeconds(1f);
+            m_modelGo.SetActive(true);
 
             time = 0f;
             while (time < 1f)
@@ -73,8 +69,8 @@ namespace NezuHack
             m_audioSource.PlayOneShot(m_explodeClip);
             m_cinemachineInputSrc?.GenerateImpulse(6f);
             yield return new WaitForSeconds(5f);
+            m_timeline.Play();
 
-            m_anm.Play("HimawariGrowth",0,0f);
             time = 0f;
             while (time < 1f)
             {
@@ -85,14 +81,13 @@ namespace NezuHack
 
             yield return new WaitForSeconds(2f);
             m_modelGo.SetActive(true);
-            //m_seedGo.SetActive(false);
-            m_targetTr.localScale = Vector3.zero;
+            //m_targetTr.localScale = Vector3.zero;
 
             time = 0f;
             while (time < 1f)
             {
                 time = Mathf.Min(time + Time.deltaTime*0.5f, m_maxRate);
-                m_targetTr.localScale = Vector3.one * m_scaleAC.Evaluate(time) * 10f;
+                m_targetTr.localScale = Vector3.one * ((m_scaleAC.Evaluate(time) * 1f)+1f);
                 yield return null;
             }
 
