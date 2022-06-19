@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import PAYPAY from '@paypayopa/paypayopa-sdk-node';
 import axios from 'axios';
 PAYPAY.Configure({
@@ -12,6 +11,21 @@ The default false setting connects to the sandbox environment. The True setting 
 });
 
 export async function paypayRouter(app, opts): Promise<void> {
+  app.get('/kintone', async (req, res) => {
+    /*
+    const kintoneClient = new KintoneRestAPIClient({
+      baseUrl: "https://x9uzn8r37o0p.cybozu.com",
+      // Use password authentication
+      auth: {
+        username: process.env.KINTONE_USERNAME,
+        password: process.env.KINTONE_PASSWORD,
+      },
+    });
+    const record = await kintoneClient.record.getRecords({ app: "2" })
+    console.log(record)
+    */
+    return {}
+  });
   app.get('/', async (req, res) => {
     const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
     const payload = {
