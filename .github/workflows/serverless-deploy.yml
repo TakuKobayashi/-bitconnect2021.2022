@@ -29,6 +29,8 @@ jobs:
         STRIPE_PUBLIC_API_KEY: ${{ secrets.STRIPE_PUBLIC_API_KEY }}
         STRIPE_SECRET_API_KEY: ${{ secrets.STRIPE_SECRET_API_KEY }}
         OBNIZ_DEVICE_ID: ${{ secrets.OBNIZ_DEVICE_ID }}
+        KINTONE_USERNAME: ${{ secrets.KINTONE_USERNAME }}
+        KINTONE_PASSWORD: ${{ secrets.KINTONE_PASSWORD }}
       run: |
         echo "PAYPAY_CLIENT_ID=${PAYPAY_CLIENT_ID}" >> ./.env
         echo "PAYPAY_MERCHANT_ID=${PAYPAY_MERCHANT_ID}" >> ./.env
@@ -37,6 +39,8 @@ jobs:
         echo "STRIPE_PUBLIC_API_KEY=${STRIPE_PUBLIC_API_KEY}" >> ./.env
         echo "STRIPE_SECRET_API_KEY=${STRIPE_SECRET_API_KEY}" >> ./.env
         echo "OBNIZ_DEVICE_ID=${OBNIZ_DEVICE_ID}" >> ./.env
+        echo "KINTONE_USERNAME=${KINTONE_USERNAME}" >> ./.env
+        echo "KINTONE_PASSWORD=${KINTONE_PASSWORD}" >> ./.env
     - name: yarn install
       working-directory: ./serverless
       run: yarn install
