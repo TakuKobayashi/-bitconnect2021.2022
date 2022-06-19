@@ -77,6 +77,7 @@ namespace NezuHack
                 yield return null;
             }
 
+            m_timeline.Play();
             m_timeline.Pause();
             m_gndHitPs.Play();
             m_audioSource.PlayOneShot(m_explodeClip);
