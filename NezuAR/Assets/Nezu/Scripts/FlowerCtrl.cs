@@ -14,6 +14,7 @@ namespace NezuHack
         [SerializeField] Transform m_topTr;
         [SerializeField] Transform m_followTr;
         [SerializeField] Transform m_seedOnlyTr;
+        [SerializeField] Transform m_seedAndLeavesTr;
         [SerializeField] AnimationCurve m_scaleAC;
         [SerializeField] AudioSource m_audioSource;
         [SerializeField] PlayableDirector m_timeline;
@@ -64,6 +65,7 @@ namespace NezuHack
             m_targetTr.localScale = Vector3.one*1f;
             m_targetTr.localPosition = Vector3.up*500f;
             m_modelGo.SetActive(true);
+            m_seedOnlyTr.gameObject.SetActive(true);
             m_isReadyToGrow = false;
             m_followTr.position = Vector3.Lerp(m_bottomTr.position, m_topTr.position, 0f);
 
@@ -120,6 +122,7 @@ namespace NezuHack
             {
                 time = Mathf.Min(time + Time.deltaTime * 0.2f, 1f);
                 m_targetTr.localPosition = Vector3.up * time * 500f;
+                m_seedAndLeavesTr.gameObject.SetActive(false);
                 yield return null;
             }
             m_flashPs.Play();
