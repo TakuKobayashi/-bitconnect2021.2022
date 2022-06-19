@@ -26,7 +26,7 @@ export async function stripeRouter(app, opts): Promise<void> {
     }
   });
   app.get('/payment_success', async (req, res) => {
-    const response = await axios.get("https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run");
+    const response = await axios.get('https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run');
     return { message: 'stripe payment success' };
   });
   app.get('/payment_cancel', async (req, res) => {

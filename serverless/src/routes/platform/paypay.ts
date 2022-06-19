@@ -12,6 +12,20 @@ The default false setting connects to the sandbox environment. The True setting 
 
 export async function paypayRouter(app, opts): Promise<void> {
   app.get('/kintone', async (req, res) => {
+    const kintoneAuthHeaderPlane = [process.env.KINTONE_USERNAME, process.env.KINTONE_PASSWORD].join(':');
+    const kintoneAuthHeaderBase64 = Buffer.from(kintoneAuthHeaderPlane).toString('base64');
+    console.log(kintoneAuthHeaderBase64);
+    const response = await axios.post(
+      'https://x9uzn8r37o0p.cybozu.com//k/v1/records/cursor.json',
+      { app: '2' },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Cybozu-Authorization': kintoneAuthHeaderBase64,
+        },
+      },
+    );
+    console.log(response);
     /*
     const kintoneClient = new KintoneRestAPIClient({
       baseUrl: "https://x9uzn8r37o0p.cybozu.com",
@@ -24,7 +38,7 @@ export async function paypayRouter(app, opts): Promise<void> {
     const record = await kintoneClient.record.getRecords({ app: "2" })
     console.log(record)
     */
-    return {}
+    return {};
   });
   app.get('/', async (req, res) => {
     const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
@@ -71,13 +85,13 @@ export async function paypayRouter(app, opts): Promise<void> {
     res.redirect(body.data.url);
   });
   app.get('/payment_result', async (req, res) => {
-    const response = await axios.get("https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run");
+    const response = await axios.get('https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run');
     return {
       result: 'payment success!!',
     };
   });
   app.post('/payment_webhook', async (req, res) => {
-    const response = await axios.get("https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run");
+    const response = await axios.get('https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run');
     console.log(req.body);
     return {
       result: 'webhook',
