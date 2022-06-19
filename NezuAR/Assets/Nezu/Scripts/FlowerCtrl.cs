@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using Cinemachine;
 
 namespace NezuHack
@@ -131,7 +132,8 @@ namespace NezuHack
             m_modelGo.SetActive(false);
 
             yield return new WaitForSeconds(4f);
-            StartCoroutine(growCo());
+            //StartCoroutine(growCo());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         }
         IEnumerator efcCo()
