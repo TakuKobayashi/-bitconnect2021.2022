@@ -57,7 +57,7 @@ export async function paypayRouter(app, opts): Promise<void> {
   });
   app.get('/payment_result', async (req, res) => {
     return {
-      result: 'sample',
+      result: 'payment success!!',
     };
   });
   app.post('/payment_webhook', async (req, res) => {
