@@ -54,7 +54,7 @@ namespace NezuHack
                 if (context.phase == InputActionPhase.Performed)
                 {
                     OnPowerButton(0.25f);
-                    OnPay();
+                    //OnPay();
                 }
             }
         }
