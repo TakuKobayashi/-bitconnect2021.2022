@@ -1,0 +1,151 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/obniz@3.x/obniz.js" crossorigin="anonymous" ></script>
+  
+  
+    <script>
+      //var obniz = new Obniz("OBNIZ_ID_HERE");//テスト用
+      var obniz = new Obniz('OBNIZ_ID_HERE');
+      // called on online 
+      obniz.onconnect = async function() {
+        
+        var hcsr04 = obniz.wired("HC-SR04", {gnd:8, echo:9, trigger:10, vcc:11});//超音波
+        var motor = obniz.wired("DCMotor", {forward:1, back:0});//DCモーター口
+        var motor2 = obniz.wired("DCMotor", {forward:2, back:3});//DCモーター手
+        var counter = 0;
+        eyeDefault();
+
+        setInterval(() => {
+          counter += 1;
+          //距離を計測する。
+          hcsr04.measure(function( distance ){
+            console.log("distance " + distance + " mm" + "タイマー" + counter);
+            if(distance<400){
+              servoMove();//距離が400以下ならモーターを起動
+            };
+            if (counter>30){//30カウント毎にイベント
+               // 0100のランダムな数字を取得
+               var rand = Math.floor(Math.random() * 101);
+                document.write('<p>rand: ' + rand + '</p>');
+               if (rand >= 80) {
+                 eyeMove();
+                 motor.forward();
+                 setTimeout(function(){
+                   document.write("<div style='visibility:hidden;'><audio controls autoplay src='http://dp28192795.lolipop.jp/20220618/0002.mp3'></audio></div>");
+                   motor.stop();
+                   motor2.forward();
+                   setTimeout(function(){
+                     setTimeout(function(){
+                       motor2.stop();
+                      }, 200);
+                    }, 500);
+                  }, 1000);
+                 document.write('<p>0002.mp3：くらっぴーです</p>');
+                  } else if (rand >= 60 && rand <= 80) {
+                    eyeMove();
+                    motor.forward();
+                    setTimeout(function(){
+                      document.write("<div style='visibility:hidden;'><audio controls autoplay src='http://dp28192795.lolipop.jp/20220618/0003.mp3'></audio></div>");
+                      motor.stop();
+                      motor2.forward();
+                      setTimeout(function(){
+                        setTimeout(function(){
+                          motor2.stop();
+                        }, 200);
+                      }, 500);
+                    }, 1000);               
+                    document.write('<p>0003.mp3：きょうもおつかれさまです</p>');
+                  } else if (rand >= 40 && rand <= 60) {
+                    eyeMove();
+                    motor.forward();
+                    setTimeout(function(){
+                      document.write("<div style='visibility:hidden;'><audio controls autoplay src='http://dp28192795.lolipop.jp/20220618/0004.mp3'></audio></div>");
+                      motor.stop();
+                      motor2.forward();
+                      setTimeout(function(){
+                        setTimeout(function(){
+                          motor2.stop();
+                        }, 200);
+                      }, 500);
+                    }, 1000);
+                    document.write('<p>0004.mp3：かんぱーい</p>');
+                  } else if (rand >= 20 && rand <= 40) {
+                    eyeMove();
+                    motor.forward();
+                    setTimeout(function(){
+                      document.write("<div style='visibility:hidden;'><audio controls autoplay src='http://dp28192795.lolipop.jp/20220618/0005.mp3'></audio></div>");
+                      motor.stop();
+                      motor2.forward();
+                      setTimeout(function(){
+                        setTimeout(function(){
+                          motor2.stop();
+                        }, 200);
+                      }, 500);
+                    }, 1000);
+                    document.write('<p>0005.mp3：ごちゅうもんはおきがるにー</p>');
+                  } else {
+                    eyeMove();
+                    motor.forward();
+                    setTimeout(function(){
+                      document.write("<div style='visibility:hidden;'><audio controls autoplay src='http://dp28192795.lolipop.jp/20220618/0006.mp3'></audio></div>");
+                      motor.stop();
+                      motor2.forward();
+                      setTimeout(function(){
+                        setTimeout(function(){
+                          motor2.stop();
+                        }, 200);
+                      }, 500);
+                    }, 1000);
+                   document.write('<p>0006.mp3：　おすすめはきいてねー</p>');
+                   }
+                   counter = 0;
+              }
+          });
+        }, 1000);
+
+        function eyeDefault() {//ディスプレイに目を表示
+          obniz.display.clear();
+          obniz.display.rect(0, 0, 200, 200, true); 
+          obniz.display.circle(100, 20, 8); 
+          obniz.display.circle(40, 20, 8);
+          obniz.display.setColor('#000000')
+          obniz.display.circle(100, 20, 7, true); 
+          obniz.display.circle(40, 20, 7, true);
+          obniz.display.setColor('#FFFFFF')
+        };
+        function eyeMove() {//ディスプレイに目を表示瞬きをする
+          obniz.display.rect(0, 0, 200, 200, true); 
+          obniz.display.circle(100, 20, 8); 
+          obniz.display.circle(40, 20, 8);
+          obniz.display.setColor('#000000')
+          obniz.display.circle(100, 20, 7, true); 
+          obniz.display.circle(40, 20, 7, true);
+          obniz.display.setColor('#FFFFFF');
+        };
+
+        //モーター
+        function servoMove() {
+          eyeMove();
+          motor.forward();
+          setTimeout(function(){
+            document.write("<div style='visibility:hidden;'><audio controls autoplay src='http://dp28192795.lolipop.jp/20220618/0001.mp3'></audio></div>");
+            motor.stop();
+            motor2.forward();
+            setTimeout(function(){
+              setTimeout(function(){
+                motor2.stop();
+              }, 200);
+            }, 500);
+          }, 1000);
+        };
+      };
+    </script>
+    </head>
+    <body>
+  </body>
+</html>
