@@ -12,44 +12,21 @@ The default false setting connects to the sandbox environment. The True setting 
 
 export async function paypayRouter(app, opts): Promise<void> {
   app.get('/kintone', async (req, res) => {
-    const kintoneAuthHeaderPlane = [process.env.KINTONE_USERNAME, process.env.KINTONE_PASSWORD].join(':');
-    const kintoneAuthHeaderBase64 = Buffer.from(kintoneAuthHeaderPlane).toString('base64');
-    console.log(kintoneAuthHeaderBase64);
-    const response = await axios.post(
-      'https://x9uzn8r37o0p.cybozu.com//k/v1/records/cursor.json',
-      { app: '2' },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Cybozu-Authorization': kintoneAuthHeaderBase64,
-        },
-      },
-    );
-    console.log(response);
-    /*
-    const kintoneClient = new KintoneRestAPIClient({
-      baseUrl: "https://x9uzn8r37o0p.cybozu.com",
-      // Use password authentication
-      auth: {
-        username: process.env.KINTONE_USERNAME,
-        password: process.env.KINTONE_PASSWORD,
-      },
-    });
-    const record = await kintoneClient.record.getRecords({ app: "2" })
-    console.log(record)
-    */
-    return {};
+    return getKintoneRecords();
   });
   app.get('/', async (req, res) => {
     const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
+    const mst_product_records = await getKintoneRecords();
     const payload = {
       merchantPaymentId: uuidv4(),
       amount: {
-        amount: 100,
+//        amount: 100,
+        amount: mst_product_records[0]['数値'].value,
         currency: 'JPY',
       },
       codeType: 'ORDER_QR',
-      orderDescription: 'なにかの商品',
+//      orderDescription: 'なにかの商品',
+      orderDescription: mst_product_records[0]['文字列__1行__0'].value,
       isAuthorization: false,
       redirectUrl: currentBaseUrl + '/platforms/paypay/payment_result',
       redirectType: 'WEB_LINK',
@@ -97,4 +74,33 @@ export async function paypayRouter(app, opts): Promise<void> {
       result: 'webhook',
     };
   });
+}
+
+async function getKintoneRecords(): Promise<any> {
+  const kintoneAuthHeaderPlane = [process.env.KINTONE_USERNAME, process.env.KINTONE_PASSWORD].join(':');
+  const kintoneAuthHeaderBase64 = Buffer.from(kintoneAuthHeaderPlane).toString('base64');
+  const kintoneCursorResponse = await axios.post(
+    'https://x9uzn8r37o0p.cybozu.com/k/v1/records/cursor.json',
+    { app: '2' },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Cybozu-Authorization': kintoneAuthHeaderBase64,
+      },
+    },
+  );
+  console.log(kintoneCursorResponse.data);
+  const kintoneRecordResponse = await axios.get(
+    'https://x9uzn8r37o0p.cybozu.com/k/v1/records/cursor.json',
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Cybozu-Authorization': kintoneAuthHeaderBase64,
+      },
+      data: {
+        id: kintoneCursorResponse.data.id
+      }
+    },
+  );
+  return kintoneRecordResponse.data.records;
 }
