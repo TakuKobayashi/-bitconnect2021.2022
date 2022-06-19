@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { KintoneRestAPIClient } from "@kintone/rest-api-client";
+import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import PAYPAY from '@paypayopa/paypayopa-sdk-node';
 PAYPAY.Configure({
   clientId: process.env.PAYPAY_API_KEY,
@@ -19,11 +19,11 @@ export async function paypayRouter(app, opts): Promise<void> {
         amount: 100,
         currency: 'JPY',
       },
-      codeType: "ORDER_QR",
-      orderDescription: "なにかの商品",
+      codeType: 'ORDER_QR',
+      orderDescription: 'なにかの商品',
       isAuthorization: false,
       redirectUrl: currentBaseUrl + '/platforms/paypay/payment_result',
-      redirectType: "WEB_LINK",
+      redirectType: 'WEB_LINK',
     };
     const response = await PAYPAY.QRCodeCreate(payload);
     const body = response.BODY;
@@ -53,7 +53,7 @@ export async function paypayRouter(app, opts): Promise<void> {
     }
   }
   */
-    res.redirect(body.data.url)
+    res.redirect(body.data.url);
   });
   app.get('/payment_result', async (req, res) => {
     return {
@@ -61,7 +61,7 @@ export async function paypayRouter(app, opts): Promise<void> {
     };
   });
   app.post('/payment_webhook', async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     return {
       result: 'webhook',
     };
