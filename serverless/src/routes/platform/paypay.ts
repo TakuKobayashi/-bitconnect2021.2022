@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import PAYPAY from '@paypayopa/paypayopa-sdk-node';
+import axios from 'axios';
 PAYPAY.Configure({
   clientId: process.env.PAYPAY_API_KEY,
   clientSecret: process.env.PAYPAY_API_SECRET,
@@ -56,11 +57,13 @@ export async function paypayRouter(app, opts): Promise<void> {
     res.redirect(body.data.url);
   });
   app.get('/payment_result', async (req, res) => {
+    const response = await axios.get("https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run");
     return {
       result: 'payment success!!',
     };
   });
   app.post('/payment_webhook', async (req, res) => {
+    const response = await axios.get("https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run");
     console.log(req.body);
     return {
       result: 'webhook',
