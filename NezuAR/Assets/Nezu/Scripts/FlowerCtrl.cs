@@ -109,7 +109,7 @@ namespace NezuHack
             m_audioSource.PlayOneShot(m_finishClip);
             m_isReadyToGrow = false;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(5f);
 
             m_audioSource.clip = m_jumpClip;
             m_audioSource.Play();
