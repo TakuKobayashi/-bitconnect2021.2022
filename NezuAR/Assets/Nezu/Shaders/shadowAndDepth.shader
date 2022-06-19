@@ -12,7 +12,7 @@ SubShader {
     Blend Zero SrcColor
     ZWrite On
     ZTest LEqual
-//		Lighting Off
+		Lighting Off
 //		SeparateSpecular Off
  
 CGPROGRAM
