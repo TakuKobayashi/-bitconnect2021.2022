@@ -13,6 +13,7 @@ namespace NezuHack
         [SerializeField] Transform m_bottomTr;
         [SerializeField] Transform m_topTr;
         [SerializeField] Transform m_followTr;
+        [SerializeField] Transform m_seedOnlyTr;
         [SerializeField] AnimationCurve m_scaleAC;
         [SerializeField] AudioSource m_audioSource;
         [SerializeField] PlayableDirector m_timeline;
@@ -74,6 +75,7 @@ namespace NezuHack
                 yield return null;
             }
 
+            m_timeline.Pause();
             m_gndHitPs.Play();
             m_audioSource.PlayOneShot(m_explodeClip);
             m_cinemachineInputSrc?.GenerateImpulse(6f);
@@ -81,6 +83,7 @@ namespace NezuHack
             m_isReadyToGrow = true;
             yield return new WaitForSeconds(5f);
             m_timeline.Play();
+            m_seedOnlyTr.gameObject.SetActive(false);
 
             time = 0f;
             while (time < 1f)
@@ -136,9 +139,9 @@ namespace NezuHack
         }
 
         /// <summary>
-        /// 成長させるボタン
+        /// ???????????{?^??
         /// </summary>
-        /// <param name="_powerRate">0-1の値を入れる.加算した値が1になったら成長完了</param>
+        /// <param name="_powerRate">0-1???l????????.???Z?????l??1??????????????????</param>
         public void OnPowerButton(float _powerRate)
         {
             m_maxRate = Mathf.Min(m_maxRate + _powerRate, 1f);
@@ -146,7 +149,7 @@ namespace NezuHack
         }
 
         /// <summary>
-        /// 決済ボタン
+        /// ?????{?^??
         /// </summary>
         /// <param name="_powerRate"></param>
         public void OnPay()
