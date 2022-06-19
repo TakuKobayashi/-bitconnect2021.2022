@@ -22,6 +22,8 @@ export async function paypayRouter(app, opts): Promise<void> {
       codeType: "ORDER_QR",
       orderDescription: "なにかの商品",
       isAuthorization: false,
+      redirectUrl: currentBaseUrl + '/platforms/paypay/payment_result',
+      redirectType: "WEB_LINK",
     };
     const response = await PAYPAY.QRCodeCreate(payload);
     const body = response.BODY;
