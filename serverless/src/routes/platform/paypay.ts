@@ -100,8 +100,11 @@ export async function paypayRouter(app, opts): Promise<void> {
       payment: body,
     };
   });
-  // 金額を指定して購入してもらう場合の処理の実行(ここでは100円の商品を1個購入する)
   app.get('/', async (req, res) => {
+    return { message: 'paypay' };
+  });
+  // 金額を指定して購入してもらう場合の処理の実行(ここでは100円の商品を1個購入する)
+  app.get('/payment', async (req, res) => {
     const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
     const mst_product_records = await getKintoneRecords();
     const payload = {
@@ -147,6 +150,9 @@ export async function paypayRouter(app, opts): Promise<void> {
   }
   */
     res.redirect(body.data.url);
+    return {
+      result: 'payment success!!',
+    };
   });
   app.get('/payment_result', async (req, res) => {
     const response = await axios.get('https://obniz.com/events/2264/pImYzvnd7d56yocccRrf3qCgARCvEBjh/run');

@@ -160,7 +160,7 @@ namespace NezuHack
         /// <param name="_powerRate"></param>
         public void OnPay()
         {
-            Application.OpenURL("https://jstmx62b7g.execute-api.ap-northeast-1.amazonaws.com/production/platforms/paypay/");
+            Application.OpenURL("https://jstmx62b7g.execute-api.ap-northeast-1.amazonaws.com/production/platforms/paypay/payment");
         }
     }
 }
