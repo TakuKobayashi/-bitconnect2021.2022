@@ -14,6 +14,43 @@ export async function paypayRouter(app, opts): Promise<void> {
   app.get('/kintone', async (req, res) => {
     return getKintoneRecords();
   });
+  app.get('/account_link', async (req, res) => {
+    const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
+    const payload = {
+      scopes: [
+        "direct_debit"
+      ],
+      nonce: uuidv4(),
+      referenceId: uuidv4(),
+      // 認可処理で使われる redirectUrl は ここ https://developer.paypay.ne.jp/settings で登録しているものと整合性が取れている必要がある
+      redirectUrl: currentBaseUrl + '/platforms/paypay/oauth_result',
+      redirectType: 'WEB_LINK',
+    };
+    // ここではOAuthによる認可処理が行われる
+    const response = await PAYPAY.AccountLinkQRCodeCreate(payload);
+    // responseはうまく行くと以下のような感じ
+    /*
+    {
+      STATUS: 201,
+      BODY: {
+        resultInfo: { code: 'SUCCESS', message: 'Success', codeId: 'codeId' },
+        data: {
+          linkQRCodeURL: 'https://...'
+        }
+      }
+    }
+    */
+    const body = response.BODY;
+    res.redirect(body.data.linkQRCodeURL);
+  });
+  app.get('/oauth_result', async (req, res) => {
+    return {
+      query: req.query,
+      headers : req.headers,
+      body: req.body
+    };
+  });
+  // 金額を指定して購入してもらう場合の処理の実行(ここでは100円の商品を1個購入する)
   app.get('/', async (req, res) => {
     const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
     const mst_product_records = await getKintoneRecords();
