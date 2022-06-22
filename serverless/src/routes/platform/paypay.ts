@@ -17,9 +17,7 @@ export async function paypayRouter(app, opts): Promise<void> {
   app.get('/account_link', async (req, res) => {
     const currentBaseUrl = [req.protocol + '://' + req.hostname, req.awsLambda.event.requestContext.stage].join('/');
     const payload = {
-      scopes: [
-        "direct_debit"
-      ],
+      scopes: ['direct_debit'],
       nonce: uuidv4(),
       referenceId: uuidv4(),
       // 認可処理で使われる redirectUrl は ここ https://developer.paypay.ne.jp/settings で登録しているものと整合性が取れている必要がある
@@ -44,10 +42,62 @@ export async function paypayRouter(app, opts): Promise<void> {
     res.redirect(body.data.linkQRCodeURL);
   });
   app.get('/oauth_result', async (req, res) => {
+    /*
+    req.queryの値でこんな感じの値が取れる
+    {"apiKey":"apiKey","responseToken":"...."},
+    */
+    const jwtResponse = PAYPAY.ValidateJWT(req.query.responseToken, process.env.PAYPAY_API_SECRET);
+    /*
+      jwtResponse はこんな感じの値がとれる
+      {
+        result: 'succeeded',
+        aud: 'aud',
+        iss: 'paypay.ne.jp',
+        profileIdentifier: '電話番号(隠し)',
+        exp: 1655918951,
+        nonce: 'nonce',
+        userAuthorizationId: 'userAuthorizationId 記録して使う',
+        referenceId: 'referenceId'
+      }
+    */
+    const payload = {
+      merchantPaymentId: uuidv4(),
+      amount: {
+        amount: 1000,
+        currency: 'JPY',
+      },
+      userAuthorizationId: jwtResponse.userAuthorizationId,
+      orderDescription: 'OAuthを使っての何かお支払い',
+    };
+    // 認可が通っているのでこのリクエストを投げれば決済できちゃう(お金を減らせる)
+    const response = await PAYPAY.CreatePayment(payload);
+    const body = response.BODY;
+    /*
+    CreatePayment 後の response の中身はこんな感じ
+    {
+      STATUS: 200,
+      BODY: {
+        resultInfo: { code: 'SUCCESS', message: 'Success', codeId: 'codeId' },
+        data: {
+          paymentId: 'paymentId',
+          status: 'COMPLETED',
+          acceptedAt: 1655918996,
+          merchantPaymentId: 'merchantPaymentId',
+          userAuthorizationId: 'userAuthorizationId',
+          amount: {
+            amount:1000,
+            currency:"JPY"
+          },
+          requestedAt: 1655918996,
+          orderDescription: 'OAuthを使っての何かお支払い',
+          assumeMerchant: 'assumeMerchant'
+        }
+      }
+    }
+    */
     return {
-      query: req.query,
-      headers : req.headers,
-      body: req.body
+      jwtResponse: jwtResponse,
+      payment: body,
     };
   });
   // 金額を指定して購入してもらう場合の処理の実行(ここでは100円の商品を1個購入する)
@@ -57,12 +107,12 @@ export async function paypayRouter(app, opts): Promise<void> {
     const payload = {
       merchantPaymentId: uuidv4(),
       amount: {
-//        amount: 100,
+        //        amount: 100,
         amount: mst_product_records[0]['数値'].value,
         currency: 'JPY',
       },
       codeType: 'ORDER_QR',
-//      orderDescription: 'なにかの商品',
+      //      orderDescription: 'なにかの商品',
       orderDescription: mst_product_records[0]['文字列__1行__0'].value,
       isAuthorization: false,
       redirectUrl: currentBaseUrl + '/platforms/paypay/payment_result',
@@ -127,17 +177,14 @@ async function getKintoneRecords(): Promise<any> {
     },
   );
   console.log(kintoneCursorResponse.data);
-  const kintoneRecordResponse = await axios.get(
-    'https://x9uzn8r37o0p.cybozu.com/k/v1/records/cursor.json',
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Cybozu-Authorization': kintoneAuthHeaderBase64,
-      },
-      data: {
-        id: kintoneCursorResponse.data.id
-      }
+  const kintoneRecordResponse = await axios.get('https://x9uzn8r37o0p.cybozu.com/k/v1/records/cursor.json', {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Cybozu-Authorization': kintoneAuthHeaderBase64,
     },
-  );
+    data: {
+      id: kintoneCursorResponse.data.id,
+    },
+  });
   return kintoneRecordResponse.data.records;
 }
